@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Ninject;
 using NUnit.Framework;
@@ -8,6 +9,7 @@ using SkyKick.Bcl.Extensions.Reflection;
 using SkyKick.Bcl.Logging.ConsoleTestLogger;
 using SkyKick.Bcl.Logging.Infrastructure;
 using SkyKick.NinjectWorkshop.WordCounting.Http;
+using SkyKick.NinjectWorkshop.WordCounting.Threading;
 using SkyKick.NinjectWorkshop.WordCounting.UI;
 
 namespace SkyKick.NinjectWorkshop.WordCounting.Tests
@@ -48,7 +50,12 @@ namespace SkyKick.NinjectWorkshop.WordCounting.Tests
                     Arg.Is(fakeToken)))
                 .Return(Task.FromResult(fakeWebContent));
 
+            var mockThreadSleeper = MockRepository.GenerateMock<IThreadSleeper>();
+            mockThreadSleeper
+                .Stub(x => x.Sleep(Arg<TimeSpan>.Is.Anything));
+
             kernel.Rebind<IWebClient>().ToConstant(mockWebClient);
+            kernel.Rebind<IThreadSleeper>().ToConstant(mockThreadSleeper);
 
             var wordCountingEngine = kernel.Get<WordCountingEngine>();
 

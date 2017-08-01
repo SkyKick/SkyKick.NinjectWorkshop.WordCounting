@@ -1,4 +1,6 @@
-﻿using Ninject.Extensions.Conventions;
+﻿using Ninject;
+using Ninject.Extensions.Conventions;
+using SkyKick.NinjectWorkshop.WordCounting.Cache;
 using SkyKick.NinjectWorkshop.WordCounting.Http;
 
 namespace SkyKick.NinjectWorkshop.WordCounting
@@ -14,6 +16,8 @@ namespace SkyKick.NinjectWorkshop.WordCounting
                     .BindDefaultInterface());
 
             Kernel.Bind<IWebClient>().To<WebClientWrapper>();
+
+            Kernel.Rebind<IWordCountCache>().To<WordCountCache>().InSingletonScope();
         }
     }
 }

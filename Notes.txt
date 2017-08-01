@@ -190,7 +190,105 @@ Check Point 5
 		
 Check Point 6
 
- Step X - Singleton - add a delay and initialization in WebClient to simulate a 
-         auth handshake.  Run Program note how delay occurs every time.
-		  Add Singleton() notice how delay only happens once.
+Performance optimization time.  We expect are Word Counter will be asked to count
+the same url over and over again.  So to speed performance, we'll add a cache. 
+But there's a catch, the cache we will use has a start up penalty.  Before we'd
+use the Singleton pattern to make sure we only instantiated one instance of the 
+cache so we'd only get hit with the penalty once.  But we can use Ninject 
+to have only one instance of the cache and still support DI and not use statics!
+
+     Step 31 Create Cache
+		- Note how we use IThreadSleeper to wrap the call to Thread.Sleep.  While
+		  this might seem a bit extereme, it's very helpful in enabling us to write
+		  a unit test that doesn't rely on a call try TryGet() taking a long time.
+
+	Step 32 Add Cache to WordCountingEngine
+
+	Step 33 Run WordCounting.UI
+		- Enter https://www.skykick.com.  Note the log message
+		  that the Cache is initializing and the program waits for 3 seconds.
+		- Enter https://www.skykick.com again.  Note how there is no log
+		  message about initialization and instead we get a log message about a 
+		  cache hit.
+		- The .UI program is not running multithreaded and the way it's designed,
+		  the Repl class keeps the full object graph between user input so it's
+		  ok that WordCountCache is not actually a singleton.
+
+	Step 34 Guard Test
+		- Event though WordCounting.UI isn't using the cache from multiple 
+		  requests, .WordCounting might need to support more advanced scenarios
+		  in the future, so we want to document that it should be created as a 
+		  Singleton.  We'll create a Guard Test - a quick test that protects a 
+		  small but very important implementation detail
+		- Because we are testing a component of .WordCounting, it's not really
+		  appropriate or necessary to use UI.Startup().BuildKernel(), so we'll 
+		  create a new one, using only the modules necessary to build WordCountCache.
+		- Note that when stubbing a method that has optional parameters, it's always
+		  necessary to pass Arg values, otherwise RhinoMocks will throw an exception.
+		- We can Bind mocks to a StandardKernel for our test and Ninject is perfectly 
+		  happy.
+		  --- However, for IThreadSleeper we must use Rebind().  the .WordCounting 
+		      NinjectModule already has a binding for IThreadSleeepr.  If we use
+			  Bind<IThreadSleeper>.ToConstant(mockThreadSleeper) the call will succeed,
+			  however when we do a kernel.Get Ninject will throw an exception because 
+			  it will not know which of the two bindings to use.  
+		  --- There is no problem if you use Rebind if there is not an existing binding.
+		- Not how it's very useful to have a wraper around Thread.Sleep, it allows
+		  the test to run in a fraction of a second, instead of waiting three seconds
+		  for the Initialize methods to complete.
+		- Because we're using quantum logging that supports DI, we can also verify
+		  that logging occurs :)
+		- Run the test, confirm that it fails.  Ninject is exhibiting default behavior,
+		  each call to kernel.Get<IWordCountCache>() will return a new instance
+
+	Step 35 Singleton Scope
+		- Update Ninject Module
+		- The InSingletonScope instructs Ninject to only create one instance of
+		  a class on the first request and then reuse it for all subsequent requests.
+		- Notice how we have to use Rebind in this case, because the 
+		  SelectAllClasses().BindDefaultInterface() will include a default binding
+		  for IWordCountCache.
+
+	Step 36 Run Guard Test
+		- Confirm the test now passes!
+		- An interesting thing to note, is we only set InSingletonScope() when
+		  IWordCountCache is requested.  If you were to change the test to request
+		  WordCountCache it would again fail because Ninject would create two 
+		  different instances for the request to Get<WordCountCache>().
+		- This can be fixed by adding Bind<WordCountCache>().ToSelf().InSingletonScope()
+		  in the Ninjet Module.
+		  --- Note the use of .ToSelf(), this is done instead of 
+		      Bind<WordCountCache>().To<WordCountCache>()
+		  --- That fixes if both requests are for Get<WordCountCache>().  But what if one
+		      request was Get<IWordCountCache>() and the other was Get<WordCountCache>()?
+			  Then it would fail, because Ninject sees it as two different requests with
+			  different InSingletonScopes().  To solve that is certainly possible, but 
+			  requires more advanced bindings:
+
+			     Kernel.Bind<WordCountCache>().To<WordCountCache>().InSingletonScope();
+                 Kernel.Rebind<IWordCountCache>().ToMethod(ctx => ctx.Kernel.Get<WordCountCache>());
+
+		  --- When would you use this?  It's valuable when use interface segregation but have
+		      one object implement two interfaces.  For example, if you had seperate interfaces
+			  for a repository, one read only and one write only: IUserReadRepository and 
+			  IUserWriteRepository and both interfaces are implemented by UserRepository.  If
+			  UserRepository needed to be a Singleton because it did some long running 
+			  initialization, then it would be necessary to use this technique to make sure
+			  a request to either interface returned the same instance:
+			    
+		         Kernel.Bind<UserRepository>().To<UserRepository>().InSingletonScope();
+                 Kernel.Bind<IUserReadRepository>().ToMethod(ctx => ctx.Kernel.Get<UserRepository>());
+				 Kernel.Bind<IUserWriteRepository>().ToMethod(ctx => ctx.Kernel.Get<UserRepository>());
+
+	Step 37 Fix Cross Component Tests
+		- You might have noticed that our cross component tests are now running
+		  a lot longer - WordCountingEngine is having to initialize its cache.
+		- Add a mock IThreadSleeper that doesn't actually sleep so our tests run 
+		  quickly again.
+		- This is another benefit of having the IThreadSleeper wrapper
+				 
+Check Point 7
+
+
+ 
  

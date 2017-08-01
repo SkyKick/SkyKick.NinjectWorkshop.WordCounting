@@ -73,8 +73,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cache\WordCountCache.cs" />
     <Compile Include="Http\WebTextSourceOptions.cs" />
     <Compile Include="NinjectModule.cs" />
+    <Compile Include="Threading\ThreadSleeper.cs" />
     <Compile Include="WordCountingAlgorithm.cs" />
     <Compile Include="Http\WebClientWrapper.cs" />
     <Compile Include="Http\WebTextSource.cs" />

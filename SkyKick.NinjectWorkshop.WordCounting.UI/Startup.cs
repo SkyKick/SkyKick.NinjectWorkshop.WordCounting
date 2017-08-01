@@ -7,6 +7,7 @@ namespace SkyKick.NinjectWorkshop.WordCounting.UI
         public IKernel BuildKernel()
         {
             return new StandardKernel(
+                new SkyKick.Bcl.Logging.ConsoleTestLogger.NinjectModule(),
                 new SkyKick.NinjectWorkshop.WordCounting.NinjectModule());
         }
     }

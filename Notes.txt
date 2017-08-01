@@ -63,11 +63,31 @@ Step 14 Manual Binding
 
 CheckPoint 2
 
+Step 15 Run Bindings Test
+     Note, we've made progress, but still getting Activation Exception()
+	 But we're closer - missing a binding for SkyKick.Bcl.Logging
 
+Step 16 Adding binding for SkyKick.Bcl.Logging
+     we'll add the NinjectModule that comes with that library
 
+Step 17 Run Bindings Test - Confirm that test passes.
 
+Step 18 Run UI - Confirm application works
 
+Step 19 Clean up WordCountingEngineTests
+     We can use a kernel instead of creating
+	 WordCountingEngine manually
+	 - Show use of .ReBind() - ninject alreadys has a binding, 
+	 we need to replace it.
+	 - .ToContant allows us to bind to an existing instance rather
+	 than a type that Ninject will control creating.
+	 - Highlihgt importance of .BuildKernel creating a new instance
+	 every time.  Because we are manipulating bindings we need
+	 to make sure we have a fresh instance, otherwise we could be polluting
+	 other tests, or other tests could have polluted us by chaning bindings.
+	 - Confirm test works
 
+Check Point 3
 
  Step X - Singleton - add a delay and initialization in WebClient to simulate a 
          auth handshake.  Run Program note how delay occurs every time.

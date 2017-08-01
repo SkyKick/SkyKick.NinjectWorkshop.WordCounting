@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Ninject;
 using NUnit.Framework;
 using Rhino.Mocks;
 using Should;
@@ -7,6 +8,7 @@ using SkyKick.Bcl.Extensions.Reflection;
 using SkyKick.Bcl.Logging.ConsoleTestLogger;
 using SkyKick.Bcl.Logging.Infrastructure;
 using SkyKick.NinjectWorkshop.WordCounting.Http;
+using SkyKick.NinjectWorkshop.WordCounting.UI;
 
 namespace SkyKick.NinjectWorkshop.WordCounting.Tests
 {
@@ -34,6 +36,8 @@ namespace SkyKick.NinjectWorkshop.WordCounting.Tests
 
             var fakeWebContent = GetType().Assembly.GetEmbeddedResourceAsString(embeddedHtmlResourceName);
 
+            var kernel = new Startup().BuildKernel();
+
             var mockWebClient = MockRepository.GenerateMock<IWebClient>();
             mockWebClient
                 .Stub(x => x.GetHtmlAsync(
@@ -41,12 +45,9 @@ namespace SkyKick.NinjectWorkshop.WordCounting.Tests
                     Arg.Is(fakeToken)))
                 .Return(Task.FromResult(fakeWebContent));
 
-            var wordCountingEngine =
-                new WordCountingEngine(
-                    new WebTextSource(
-                        mockWebClient),
-                    new WordCountingAlgorithm(),
-                    new ConsoleTestLogger(typeof(WordCountingEngine), new LoggerImplementationHelper()));
+            kernel.Rebind<IWebClient>().ToConstant(mockWebClient);
+
+            var wordCountingEngine = kernel.Get<WordCountingEngine>();
 
             // ACT
             var count = await wordCountingEngine.CountWordsOnUrlAsync(fakeUrl, fakeToken);

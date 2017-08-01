@@ -89,6 +89,27 @@ Step 19 Clean up WordCountingEngineTests
 
 Check Point 3
 
+The core prototype "works", has been converted to use SOLID principles and
+we have 86% code coverage of .WordCounting.
+
+But the core algorithm is not very good.  Lets prove it's not as robust as
+it could be by adding a failing a test.  This is TDD style, we've found a bug
+so first lets verify we can reproduce the bad behavior
+
+   Step 20 Add WordsWithEntersAndNoSpaces
+       Be sure to mark as embedded resource
+
+   Step 21 Add new input file to CountsWordsInSampleFilesCorrectly
+       Verify test fails
+
+	Step 22  Update Word Counting Algorithm - very simple/naive fix
+
+	Step 23 Re run CountsWordsInSampleFilesCorrectly and verify bug is fixed
+
+Check Point 4
+
+
+
  Step X - Singleton - add a delay and initialization in WebClient to simulate a 
          auth handshake.  Run Program note how delay occurs every time.
 		  Add Singleton() notice how delay only happens once.

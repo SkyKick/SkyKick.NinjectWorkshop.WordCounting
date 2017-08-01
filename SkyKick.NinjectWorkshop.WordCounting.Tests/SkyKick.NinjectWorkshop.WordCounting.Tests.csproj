@@ -100,5 +100,8 @@
       <Name>SkyKick.NinjectWorkshop.WordCounting</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SampleFiles\WordsWithEntersAndNoSpaces.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,6 @@
-﻿namespace SkyKick.NinjectWorkshop.WordCounting
+﻿using System;
+
+namespace SkyKick.NinjectWorkshop.WordCounting
 {
     public interface IWordCountingAlgorithm
     {
@@ -9,7 +11,11 @@
     {
         public int CountWordsInString(string content)
         {
-            return content.Split(' ').Length;
+            return 
+            content
+                .Replace("\n", " ")
+                .Split(new []{' '}, StringSplitOptions.RemoveEmptyEntries)
+                .Length;
         }
     }
 }

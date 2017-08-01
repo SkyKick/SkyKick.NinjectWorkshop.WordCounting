@@ -28,6 +28,9 @@ namespace SkyKick.NinjectWorkshop.WordCounting.Tests
         [TestCase(
             "SkyKick.NinjectWorkshop.WordCounting.Tests.SampleFiles.TwoWordsHtml.txt",
             2)]
+        [TestCase(
+            "SkyKick.NinjectWorkshop.WordCounting.Tests.SampleFiles.WordsWithEntersAndNoSpaces.txt",
+            3)]
         public async Task CountsWordsInSampleFilesCorrectly(string embeddedHtmlResourceName, int expectedCount)
         {
             // ARRANGE

@@ -28,7 +28,7 @@ namespace SkyKick.NinjectWorkshop.WordCounting.Http
                 Polly.Policy
                     .Handle<WebException>(webException => 
                         (webException.Response as HttpWebResponse)?.StatusCode == HttpStatusCode.InternalServerError)
-                    .Or<Exception>()
+                    .Or<Exception>(ex => !(ex is WebException))
                     .WaitAndRetryAsync(_options.RetryTimes);
 
             var html = await policy.ExecuteAsync( _ => _webClient.GetHtmlAsync(url, token), token);

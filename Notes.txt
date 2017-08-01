@@ -169,7 +169,26 @@ gets a 500, we should retry 3 times with a back off period of 0.5s, 1s and 10s.
 
 Check Point 5
 
+	Step 28 Strict Mock
+		- Improve InvokesRetryPolicyOnErrors by changing 
+		  GenerateMock() to GenerateStrictMock()
+		- Rerun the failing test
+		- We now get a better Exception in the Actual output a
+		  ExpectationViolationException.  Using Strict mocks will
+		  have Rhino throw a very specific Exception if the code 
+		  under test tries to invoke a method that hasn't been stubbed.
+		  This is quite useful for helping to diagnose failing tests
+		  that use mocks, and is something I'm working on using more myself.
+
+	Step 29 Fix WebTextSource
+	    - Update .Or<Exception> to exclude handling a generic exception
+		  if it is a WebException: .Or<Exception>(ex => !(ex is WebException)) 
 		
+	Step 30 Run All Tests
+		- Verify that you just diagnosed and fixed a retry policy bug
+		  completly in unit tests, before your code ever made it to prod!
+		
+Check Point 6
 
  Step X - Singleton - add a delay and initialization in WebClient to simulate a 
          auth handshake.  Run Program note how delay occurs every time.

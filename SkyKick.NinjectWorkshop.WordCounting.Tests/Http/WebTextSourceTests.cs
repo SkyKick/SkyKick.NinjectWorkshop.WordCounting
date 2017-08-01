@@ -66,7 +66,7 @@ namespace SkyKick.NinjectWorkshop.WordCounting.Tests.Http
             var fakeUrl = "http://testing.com";
             var fakeToken = new CancellationTokenSource().Token;
 
-            var mockWebClient = MockRepository.GenerateMock<IWebClient>();
+            var mockWebClient = MockRepository.GenerateStrictMock<IWebClient>();
             mockWebClient
                 .Expect(x => x.GetHtmlAsync(Arg.Is(fakeUrl), Arg.Is(fakeToken)))
                 .Throw(webClientException)

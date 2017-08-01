@@ -76,6 +76,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Http\WebTextSourceTests.cs" />
     <Compile Include="NinjectBindingTests.cs" />
     <Compile Include="WordCountingEngineTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

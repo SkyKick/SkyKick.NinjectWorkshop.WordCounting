@@ -108,7 +108,68 @@ so first lets verify we can reproduce the bad behavior
 
 Check Point 4
 
+We are missing cross cutting concerns.  Lets add some in and see how they 
+can be tested.
 
+Lets add the requirement that if the IWebClient throws a general exception or 
+gets a 500, we should retry 3 times with a back off period of 0.5s, 1s and 10s.
+
+   Step 24  Add Polly to .WordCounting
+
+   Step 25 Update WebTextSource 
+      - We could add retry to WebClientWrapper, but we want wrappers
+	    to be very light weight, they really shouldn't include any 
+	    additional logic ontop of the api code they wrap.
+	  - Note how WebTextSourceOptions is injected.  This means
+	    WebTextSource is not responsible for knowing how to get its
+		own settings, it must be injected.  This also gives us great flexiblity
+		for testing.
+	  - Its ok for WebTextSourceOptions to include a default
+	  - This pattern aligns very nicely with SkyKick.Bcl.Configuration
+	    which provides a DI supported subsytem for configuration
+	  - Note: on the ExecuteAsync lambda, the _ for the lambda parameter.
+	    This is short hand indicating that the variable (cancellation token)
+		wont be used.
+
+	Step 26 Add WebTextSourceTests
+	  - Normally it would be very hard to test a retry policy based 
+	    on an exception thrown by a 3rd party/framework utility, but
+		because we have a wrapper and WebTextSourceOptions, it's quite easy
+	  - Use [TestCaseSouce] to point to a method that generates test input,
+	    allowing us to run code to generate Test Cases, wouldn't be possible
+		with just [TestCase].  This allows our test code to test a single hypothesis
+		(specific eception throws error) while still maximizing code reuse
+	  - Use .Expect() to have the ability to Verify that method was called
+	    with given method parameters a set number of times.
+	  - Use .Thorw() to easily have a mock throw an exception
+	  - We create a WebTextSourceOptions with an array of 0 second retry times
+	    to Verify() that the retry policy is retrying Web Requests
+	  - Use VerifyAllExpectations() to verify GetHtmlAsync was called the correct
+	    number of times
+
+	Step 27 Run Unit Tests
+	   - Note two tests pass, but the test where we did NOT expect the
+	     retry behavior to be triggered failed.
+		 --- We found a bug in the retry logic - it retries on 
+		     a non-transient exception.  That would have been very very
+		     hard to identify in a running system!
+       - The Exception that is logged is quiet daunting.  We caught
+	     an exception, but it's not the exception we thought it would be, 
+		 so the ShouldEqaul(webClientException) threw a new exception. 
+		 The "Actual" exception is what was thrown by the WebTextSource:
+		 A NullReferenceException.
+		    --- This is a very important exception to understand when
+			working with Mocks, especially when dealing with Async code.
+			--- Key to understanding is knowing how a Mock behaves by default,
+			    which is it will return default() for any method that has 
+				not been stubbed with either Stub() or Expect().  When we
+				an Async method is called on a Mock with no Stub, Rhino
+				will return null, and the code will end up trying to `await null`
+				which leades to the NullReferenceException.
+
+Check Point 5
+
+		
 
  Step X - Singleton - add a delay and initialization in WebClient to simulate a 
          auth handshake.  Run Program note how delay occurs every time.

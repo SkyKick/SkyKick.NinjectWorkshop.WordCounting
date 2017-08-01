@@ -48,6 +48,9 @@
     <Reference Include="Ninject.Extensions.Conventions, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.Extensions.Conventions.3.2.0.0\lib\net45-full\Ninject.Extensions.Conventions.dll</HintPath>
     </Reference>
+    <Reference Include="Polly, Version=5.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Polly.5.3.0\lib\net45\Polly.dll</HintPath>
+    </Reference>
     <Reference Include="SkyKick.Bcl.Extensions, Version=6.6.123.0, Culture=neutral, PublicKeyToken=b7d09b06a4488a84, processorArchitecture=MSIL">
       <HintPath>..\packages\SkyKick.Bcl.Extensions.6.6.123\lib\net452\SkyKick.Bcl.Extensions.dll</HintPath>
     </Reference>
@@ -70,6 +73,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Http\WebTextSourceOptions.cs" />
     <Compile Include="NinjectModule.cs" />
     <Compile Include="WordCountingAlgorithm.cs" />
     <Compile Include="Http\WebClientWrapper.cs" />

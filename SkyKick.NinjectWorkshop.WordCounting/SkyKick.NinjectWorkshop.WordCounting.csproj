@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NinjectModule.cs" />
     <Compile Include="WordCountingAlgorithm.cs" />
     <Compile Include="Http\WebClientWrapper.cs" />
     <Compile Include="Http\WebTextSource.cs" />

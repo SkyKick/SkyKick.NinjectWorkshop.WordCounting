@@ -1,8 +1,5 @@
 ﻿using System.Threading;
-using SkyKick.Bcl.Logging.ConsoleTestLogger;
-using SkyKick.Bcl.Logging.Infrastructure;
-using SkyKick.Bcl.Logging.Log4Net;
-using SkyKick.NinjectWorkshop.WordCounting.Http;
+using Ninject;
 
 namespace SkyKick.NinjectWorkshop.WordCounting.UI
 {
@@ -10,19 +7,10 @@ namespace SkyKick.NinjectWorkshop.WordCounting.UI
     {
         static void Main(string[] args)
         {
-            var repl = 
-                new Repl(
-                    new WordCountingEngine(
-                        new WebTextSource(
-                            new WebClientWrapper(
-                                new ConsoleTestLogger(
-                                    typeof(WebClientWrapper), 
-                                    new LoggerImplementationHelper()))),
-                        new WordCountingAlgorithm(),
-                        new ConsoleTestLogger(
-                            typeof(WordCountingEngine), 
-                            new LoggerImplementationHelper())));
+            var kernel = new Startup().BuildKernel();
 
+            var repl = kernel.Get<Repl>();
+            
             while (true)
             {
                 repl.RunAsync(CancellationToken.None).Wait();

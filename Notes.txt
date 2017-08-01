@@ -27,4 +27,49 @@ Step 8 Write initial unit test
  -- Arg.Is() mostly convienance here, but also validates
     input is passed in correctly
  -- Should library has conienance methods for Asserts
+
+ CheckPoint 1
+ -- Introduce Ninject (replaces building object graph)
+ Step 9 Create Kernel in UI
+     - Add Statup class with a Build Kernel method.  
+	    This should NOT be static.
+     Kernel should only be accessed from an Entry Point
+	 (RoleEntryPoint for Cloud Services, Main in Console
+	 Web Apps use a plugin that injects kernel into the 
+	 Controller Factory, so you never access it directly)
+	 - Call BuildKernel in main
+
+Step 10 Run Program - Note Activation Exception.  Can't find
+    IWordCountingEngine.  Because we haven't added a binding for it yet.
+
+Step 11 Add Ninject Module for .WordCounting
+        Highlight using NonPublicTypes.  There
+		should be no reason to leak concrete implementations
+		other than to the Test class that's explicitly testing
+		these types.
+		Remove .UI from InternalsVisibleTo
+        Update BuildKernel()
+		   Highlight using full namespace
+
+Step 12 Run Program - Note different Activation Exception  (IWebClient)
+
+Step 13 Lets TDD this problem.  
+       Create a Test proving Bindings
+	   Verify failure
+
+Step 14 Manual Binding
+		WebClientWrapper does not match default naming convention,
+		add manual binding
+
+CheckPoint 2
+
+
+
+
+
+
+
+ Step X - Singleton - add a delay and initialization in WebClient to simulate a 
+         auth handshake.  Run Program note how delay occurs every time.
+		  Add Singleton() notice how delay only happens once.
  

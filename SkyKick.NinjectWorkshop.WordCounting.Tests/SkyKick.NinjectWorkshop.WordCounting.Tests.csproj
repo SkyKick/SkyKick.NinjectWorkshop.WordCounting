@@ -76,6 +76,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NinjectBindingTests.cs" />
     <Compile Include="WordCountingEngineTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -90,6 +91,10 @@
     <EmbeddedResource Include="SampleFiles\TwoWordsHtml.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SkyKick.NinjectWorkshop.WordCounting.UI\SkyKick.NinjectWorkshop.WordCounting.UI.csproj">
+      <Project>{3C1191A3-529F-4DA1-B81E-B8A21900FFE4}</Project>
+      <Name>SkyKick.NinjectWorkshop.WordCounting.UI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SkyKick.NinjectWorkshop.WordCounting\SkyKick.NinjectWorkshop.WordCounting.csproj">
       <Project>{613aa48f-8400-49d0-96c3-50f48f10aac8}</Project>
       <Name>SkyKick.NinjectWorkshop.WordCounting</Name>

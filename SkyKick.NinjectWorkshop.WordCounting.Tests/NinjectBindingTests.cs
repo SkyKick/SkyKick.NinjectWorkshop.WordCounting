@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using Should;
 using SkyKick.NinjectWorkshop.WordCounting.UI;
+using SkyKick.NinjectWorkshop.WordCounting.UI.Repl;
 
 namespace SkyKick.NinjectWorkshop.WordCounting.Tests
 {

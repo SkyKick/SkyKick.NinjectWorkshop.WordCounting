@@ -289,6 +289,90 @@ to have only one instance of the cache and still support DI and not use statics!
 				 
 Check Point 7
 
+New Requirements - Read from File This will require a bit of a redesign
+as the initial design was tightly coupled with the idea of reading from Web pages.
+
+	Step 38 Create ITextSource
+		- To make 'text source' generic, we can't have a named method
+		  that takes initialization data.  We'll need to initialize in the constructor
+		- Expose a TextSourceId for logging / cache key
+
+	Step 39 Update WebTextSource
+		- Take url in the constructor
+		--- Now we have a parameter that we need to pass in to the constructor that 
+		    does not support DI.  Time to use a Factory
+
+	Step 40 Define WebTextSourceFactory
+	    - We'll need to create an interface to define the factory signature.  
+		- Implementation will use constructor injection to pull in all fo the 
+		  dependencies that WebTextSource needs, and then will complement that with 
+		  the non-injectable parameters need (url)
+		- This allows us to still use DI everywhere, but still support initialization
+		  input that will be provided by run time data; in this case user input
+	
+	Step 41 Update WordCountingEngine to use ITextSource
+		- Replaces url parameter
+		- (General refactoring)
+
+	Step 42  Create FileTextSource / Factory
+		- We'll use SkyKick.Bcl.Extensions.File.IFile to pull in an existing
+		  abstraction around the File System
+		- For IFileTextSourceFactory we'll use a plugin to avoid having
+		  to write the boiler plate factory code that pulls in the dependencies
+		  and passes them to the FileTextSouce constructor
+		 --- This use a number of convention. Method must start with Create and we must
+		     create a IFileTextSource to help the Factory
+
+	Step 43 Update NinjectModule with Factory Binding
+		- Add nuget package
+
+	Step 44 Move Repl to its own namespace
+		- We're going to create a few more files, so lets organize
+
+	Step 45 Create ReplTextSourceBuilder
+		- This will drive accepting user input and using the correct 
+		  Text Source Builder
+		- We inject both factories and then decide, based on user input, 
+		  which one to use to build the ITextSource we want to build
+
+	Step 46 Update Repl to use ReplTextSourceBuilder
+
+	Step 47 .UI Ninject Module
+		- We're now injecting a IReplTextSourceBuilder into
+		  Repl.  We don't have a Ninject Module for .UI so Repl
+		  will no longer resolve correclty.
+		- Create a new default Ninject Module for .UI and add to Startup.BuildKernel()
+
+	Step 48 Run All Tests to verify everything still works
+
+Check Point 8
+
+This will probably just be a preview
+
+Arbitrary Complexity using WordCountingWorkflow
+   (Send Email 1 if words > 1000, else send email 2)
+   (Save results to Word Count History Table)
+
+   Write a BDD Test
+
+   Mocking Kernel
+
+Check Point 9
+
+Plugins
+
+
+   -------
+
+   Why Service Locator is bad
+    - Using DI makes it very clear which dependencies are being used.  DI declaratively
+	  lists dependencies for a class. Service locator, the class does declare any
+	  dependencies, it pulls in whatever it wants.
+	- With DI at the app entry point, the kernel builds the full object graph.  With
+	  Service Locator, the graph is constantly being rebuilt at every Get request
+	- Classes shouldn't be responsible for knowing where to get there dependencies 
+	  (ie Service Locator).  They should just delcare what they need and not worry how
+	  dependencies are satisfied.  Externalize (invert) dependency resolution.
 
  
  

@@ -6,23 +6,25 @@ using Polly;
 
 namespace SkyKick.NinjectWorkshop.WordCounting.Http
 {
-    public interface IWebTextSource
-    {
-        Task<string> GetTextFromUrlAsync(string url, CancellationToken token);
-    }
-
-    internal class WebTextSource : IWebTextSource
+    /// <summary>
+    /// Don't build / bind directly, use <see cref="IWebTextSourceFactory"/>
+    /// </summary>
+    internal class WebTextSource : ITextSource
     {
         private readonly IWebClient _webClient;
         private readonly WebTextSourceOptions _options;
+        private readonly string _url;
 
-        public WebTextSource(IWebClient webClient, WebTextSourceOptions options)
+        public WebTextSource(IWebClient webClient, WebTextSourceOptions options, string url)
         {
             _webClient = webClient;
             _options = options;
+            _url = url;
         }
 
-        public async Task<string> GetTextFromUrlAsync(string url, CancellationToken token)
+        public string TextSourceId => _url;
+
+        public async Task<string> GetTextAsync(CancellationToken token)
         {
             var policy =
                 Polly.Policy
@@ -31,7 +33,7 @@ namespace SkyKick.NinjectWorkshop.WordCounting.Http
                     .Or<Exception>(ex => !(ex is WebException))
                     .WaitAndRetryAsync(_options.RetryTimes);
 
-            var html = await policy.ExecuteAsync( _ => _webClient.GetHtmlAsync(url, token), token);
+            var html = await policy.ExecuteAsync( _ => _webClient.GetHtmlAsync(_url, token), token);
 
             return new CsQuery.CQ(html).Text();
         }

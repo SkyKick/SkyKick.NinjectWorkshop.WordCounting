@@ -66,9 +66,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NinjectModule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repl.cs" />
+    <Compile Include="Repl\Repl.cs" />
+    <Compile Include="Repl\ReplTextSourceBuilder.cs" />
+    <Compile Include="Repl\TextSources.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

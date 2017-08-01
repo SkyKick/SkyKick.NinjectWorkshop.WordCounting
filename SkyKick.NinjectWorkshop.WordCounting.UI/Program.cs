@@ -9,7 +9,7 @@ namespace SkyKick.NinjectWorkshop.WordCounting.UI
         {
             var kernel = new Startup().BuildKernel();
 
-            var repl = kernel.Get<Repl>();
+            var repl = kernel.Get<Repl.Repl>();
             
             while (true)
             {

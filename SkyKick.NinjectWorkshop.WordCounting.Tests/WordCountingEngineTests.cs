@@ -57,10 +57,12 @@ namespace SkyKick.NinjectWorkshop.WordCounting.Tests
             kernel.Rebind<IWebClient>().ToConstant(mockWebClient);
             kernel.Rebind<IThreadSleeper>().ToConstant(mockThreadSleeper);
 
+            var webTextSource = kernel.Get<IWebTextSourceFactory>().CreateWebTextSource(fakeUrl);
+
             var wordCountingEngine = kernel.Get<WordCountingEngine>();
 
             // ACT
-            var count = await wordCountingEngine.CountWordsOnUrlAsync(fakeUrl, fakeToken);
+            var count = await wordCountingEngine.CountWordsFromTextSource(webTextSource, fakeToken);
 
             // ASSERT
             count.ShouldEqual(expectedCount);

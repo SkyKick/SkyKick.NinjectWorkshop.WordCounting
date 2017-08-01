@@ -77,12 +77,12 @@ namespace SkyKick.NinjectWorkshop.WordCounting.Tests.Http
                         ? fakeWebTextSourceOptions.RetryTimes.Length
                         : 0));
 
-            var webTextSource = new WebTextSource(mockWebClient, fakeWebTextSourceOptions);
+            var webTextSource = new WebTextSource(mockWebClient, fakeWebTextSourceOptions, fakeUrl);
 
             // ACT
             try
             {
-                await webTextSource.GetTextFromUrlAsync(fakeUrl, fakeToken);
+                await webTextSource.GetTextAsync(fakeToken);
 
                 Assert.Fail("Expected an exception to be thrown but was not.");
             }

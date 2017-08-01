@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A559AD2B-2EB6-4DFA-A3DE-0F4314301FC0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SkyKick.NinjectWorkshop.WordCounting.Tests</RootNamespace>
+    <AssemblyName>SkyKick.NinjectWorkshop.WordCounting.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="LiteGuard, Version=0.11.0.0, Culture=neutral, PublicKeyToken=d38e0b7ae24b08a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiteGuard.0.11.0\lib\net35\LiteGuard.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Extensions.Conventions, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Extensions.Conventions.3.2.0.0\lib\net45-full\Ninject.Extensions.Conventions.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Rhino.Mocks, Version=3.6.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
+      <HintPath>..\packages\RhinoMocks.3.6.1\lib\net\Rhino.Mocks.dll</HintPath>
+    </Reference>
+    <Reference Include="Should, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Should.1.1.20\lib\Should.dll</HintPath>
+    </Reference>
+    <Reference Include="SkyKick.Bcl.Extensions, Version=6.6.123.0, Culture=neutral, PublicKeyToken=b7d09b06a4488a84, processorArchitecture=MSIL">
+      <HintPath>..\packages\SkyKick.Bcl.Extensions.6.6.123\lib\net452\SkyKick.Bcl.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="SkyKick.Bcl.Logging, Version=6.6.123.0, Culture=neutral, PublicKeyToken=b7d09b06a4488a84, processorArchitecture=MSIL">
+      <HintPath>..\packages\SkyKick.Bcl.Logging.6.6.123\lib\net452\SkyKick.Bcl.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="SkyKick.Bcl.Logging.ConsoleTestLogger, Version=6.6.123.0, Culture=neutral, PublicKeyToken=b7d09b06a4488a84, processorArchitecture=MSIL">
+      <HintPath>..\packages\SkyKick.Bcl.Logging.6.6.123\lib\net452\SkyKick.Bcl.Logging.ConsoleTestLogger.dll</HintPath>
+    </Reference>
+    <Reference Include="SkyKick.Bcl.Logging.Log4Net, Version=6.6.123.0, Culture=neutral, PublicKeyToken=b7d09b06a4488a84, processorArchitecture=MSIL">
+      <HintPath>..\packages\SkyKick.Bcl.Logging.6.6.123\lib\net452\SkyKick.Bcl.Logging.Log4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="WordCountingEngineTests.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\SkyKick.CodeAnalyzersAndRules.1.0.4.51\analyzers\dotnet\cs\JetBrains.Annotations.PCL328.dll" />
+    <Analyzer Include="..\packages\SkyKick.CodeAnalyzersAndRules.1.0.4.51\analyzers\dotnet\cs\SkyKick.CodeAnalyzersAndRules.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SampleFiles\TwoWordsHtml.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SkyKick.NinjectWorkshop.WordCounting\SkyKick.NinjectWorkshop.WordCounting.csproj">
+      <Project>{613aa48f-8400-49d0-96c3-50f48f10aac8}</Project>
+      <Name>SkyKick.NinjectWorkshop.WordCounting</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

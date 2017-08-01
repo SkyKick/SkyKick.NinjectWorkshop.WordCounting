@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyKick.NinjectWorkshop.WordCounting.UI", "SkyKick.NinjectWorkshop.WordCounting.UI\SkyKick.NinjectWorkshop.WordCounting.UI.csproj", "{3C1191A3-529F-4DA1-B81E-B8A21900FFE4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyKick.NinjectWorkshop.WordCounting.Tests", "SkyKick.NinjectWorkshop.WordCounting.Tests\SkyKick.NinjectWorkshop.WordCounting.Tests.csproj", "{A559AD2B-2EB6-4DFA-A3DE-0F4314301FC0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "V2", "V2", "{98DC5CEC-4E39-4406-82BD-4A3C59996A62}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "V1", "V1", "{3E1F538B-A7AB-4A35-9825-E4A80B7A728C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{944F866D-1A8C-46DB-9BD8-2B6104A9D5DC}"
+	ProjectSection(SolutionItems) = preProject
+		Notes.txt = Notes.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyKick.NinjectWorkshop.WordCounting.Prototype", "SkyKick.NinjectWorkshop.WordCounting.Prototype\SkyKick.NinjectWorkshop.WordCounting.Prototype.csproj", "{11B59A14-ED24-4865-A704-21A5855C79BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyKick.NinjectWorkshop.WordCounting", "SkyKick.NinjectWorkshop.WordCounting\SkyKick.NinjectWorkshop.WordCounting.csproj", "{613AA48F-8400-49D0-96C3-50F48F10AAC8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3C1191A3-529F-4DA1-B81E-B8A21900FFE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C1191A3-529F-4DA1-B81E-B8A21900FFE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C1191A3-529F-4DA1-B81E-B8A21900FFE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C1191A3-529F-4DA1-B81E-B8A21900FFE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A559AD2B-2EB6-4DFA-A3DE-0F4314301FC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A559AD2B-2EB6-4DFA-A3DE-0F4314301FC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A559AD2B-2EB6-4DFA-A3DE-0F4314301FC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A559AD2B-2EB6-4DFA-A3DE-0F4314301FC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11B59A14-ED24-4865-A704-21A5855C79BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11B59A14-ED24-4865-A704-21A5855C79BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11B59A14-ED24-4865-A704-21A5855C79BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11B59A14-ED24-4865-A704-21A5855C79BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{613AA48F-8400-49D0-96C3-50F48F10AAC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{613AA48F-8400-49D0-96C3-50F48F10AAC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{613AA48F-8400-49D0-96C3-50F48F10AAC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{613AA48F-8400-49D0-96C3-50F48F10AAC8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3C1191A3-529F-4DA1-B81E-B8A21900FFE4} = {98DC5CEC-4E39-4406-82BD-4A3C59996A62}
+		{A559AD2B-2EB6-4DFA-A3DE-0F4314301FC0} = {98DC5CEC-4E39-4406-82BD-4A3C59996A62}
+		{11B59A14-ED24-4865-A704-21A5855C79BB} = {3E1F538B-A7AB-4A35-9825-E4A80B7A728C}
+		{613AA48F-8400-49D0-96C3-50F48F10AAC8} = {98DC5CEC-4E39-4406-82BD-4A3C59996A62}
+	EndGlobalSection
+EndGlobal

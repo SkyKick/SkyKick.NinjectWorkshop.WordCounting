@@ -1,0 +1,30 @@
+New Requirements - Use can select to read from web or from file based on user input
+
+(Start with Test Shells first)
+
+Step 1 - Move (alg) Logic to .WordCounting
+Step 2 - Setup Http 
+    --- no binding for WebClient
+Step 3 Create WordCountingEngine ties all the pieces together
+    --- ties all the SR pieces together
+Step 4 Create UI.Repl
+Step 5 Note how we can't create a Repl, implementation of IWordCountEngine is internal, can't access.  Temporary give access now.
+Step 6 Update Main().  Highlight manual creation of object graph (poor man DI)
+Step 7 Run
+Step 8 Write initial unit test
+ -- Use [TestCase] to extract input arguments from Test Case
+ -- Use SkyKick.Bcl.Extensions to read Embedded Resources
+ -- Use MockRepository to create a dynamic proxy object 
+ that allows us a number of powerful options.  We can stub
+ out fake behaviors, inspect method arguments and a lot more.
+ This is your entry point for creating this mocked objects.  It's 
+ possible to use concrete objects that have virtual methods, but its
+ a hell of a lot easier to use interfaces.  Which is one of the 
+ reasons why its good practice to create an interface, 
+ even if you will only have one implementation.
+ -- Use .Stub (as opposed to .Expect) - provide behavior,
+    but don't need to validate it's called
+ -- Arg.Is() mostly convienance here, but also validates
+    input is passed in correctly
+ -- Should library has conienance methods for Asserts
+ 

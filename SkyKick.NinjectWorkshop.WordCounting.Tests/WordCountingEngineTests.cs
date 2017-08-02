@@ -62,7 +62,7 @@ namespace SkyKick.NinjectWorkshop.WordCounting.Tests
             var wordCountingEngine = kernel.Get<WordCountingEngine>();
 
             // ACT
-            var count = await wordCountingEngine.CountWordsFromTextSource(webTextSource, fakeToken);
+            var count = await wordCountingEngine.CountWordsFromTextSourceAsync(webTextSource, fakeToken);
 
             // ASSERT
             count.ShouldEqual(expectedCount);

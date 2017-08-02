@@ -347,15 +347,63 @@ as the initial design was tightly coupled with the idea of reading from Web page
 
 Check Point 8
 
-This will probably just be a preview
-
 Arbitrary Complexity using WordCountingWorkflow
    (Send Email 1 if words > 1000, else send email 2)
    (Save results to Word Count History Table)
 
-   Write a BDD Test
+   Step 49 Create a dummy Email Client
 
-   Mocking Kernel
+   Step 50 Create WordCountingWorkflow
+
+   Step 51 Update Repl to use WordCountingWorkflow
+
+   Step 52 Verify all Tests pass after refactor
+
+   Step 53 Create WordCountingWorkflowTests
+		- WordCountingWorkflow has a lot of dependencies,
+		  so we'll use a Mocking Kernel to make it easier to deal with them.
+		  Mocking Kernel will automatically mock any dependency that is requested.
+		  We can also add real bindings to it if we wanted.
+		- Install nuget package.  NOTE: You must update Ninject.MockingKernel or you'll
+		  get a nasty error when running the test.
+		- Use the .Get<>().Stub() to directly add a Stub to a mock.
+		- Note we haven't added any behavior for ILogger, mocking kernel will take care
+		  of it for us, we don't have to do anything for it.
+		- Pro Tip - I like to add hints in test description on how to interpret and fix
+		  a test if it shows failure conditions.  In this case, if the wrong email is sent,
+		  a null refernec exception will be thrown, so I doucment this in the test comments
+
+   Step 54 Intro to BDD
+		- Uses syntax Given, When, Then to describe setup for a scerario, execution of a scenario, and then
+		  all of the exepctations following execution.
+		- Idea is to build up a library of components that make it very easy to get the system to a point
+		  where we can perform the test and then have a shared list of validations we can perform.  This enables up
+		  to rapidly add more scenarios as well as provide a framework for describing and validating complex
+		  logics.
+		- Very similar to a Cross Componenet test, the idea here is to test as much of the stack as possible.
+		  So we'll only mock out the WebClient and EmailClient, so we're fully running WordCountingWorkflow,
+		  WordCountingEngine, WordCountingAlgorithm, WordCountCache, and WebTextSource	
+		- This is still a technique that I'm learnign, so this is the 'best practice' that I've learned thus far.
+		  Additionally, we want to standardize this process by using SpecFlow which is a framework for creating tests
+		  in this style.  It creates method stubs for much of what's currently in TestHarness and then provdies 
+		  a plain text style DSL for stiching together the methods that appear in the Test Fixtures
+		- End result of this is a very human readable list of Business 
+		  Scenarios that can be perfomed on a System and a list of results
+		  that should occur when the Scneario is executed.
+		- Create WordCountingWorkflowScenarioTests file
+
+	Step 55 Create Test Harness
+		- This will be used by all the Scenarios
+		- Fluent Syntax, just something I like to do, method chaining is easy to read IMO
+		- Highlight .Do on mocking Logger.Debug so we can still see messages
+		- Test Harness sets up Mocks and then exposes helper methods for our BDD tests to perform setup
+		  and validation.
+
+	Step 56 Create Scenarios
+		- Add new sample files 500words, 3000words
+		- We can create a 'happy path' flow with 500 and 3000 words
+		- We can also validate error scenarios, verifying behavior of the system
+		  when there is a Exception
 
 Check Point 9
 

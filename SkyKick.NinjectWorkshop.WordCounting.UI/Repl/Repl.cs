@@ -8,12 +8,12 @@ namespace SkyKick.NinjectWorkshop.WordCounting.UI.Repl
     internal class Repl
     {
         private readonly IReplTextSourceBuilder _replTextSourceBuilder;
-        private readonly IWordCountingEngine _wordCountingEngine;
+        private readonly IWordCountingWorkflow _wordCountingWorkflow;
 
-        public Repl(IReplTextSourceBuilder replTextSourceBuilder, IWordCountingEngine wordCountingEngine)
+        public Repl(IReplTextSourceBuilder replTextSourceBuilder, IWordCountingWorkflow wordCountingWorkflow)
         {
             _replTextSourceBuilder = replTextSourceBuilder;
-            _wordCountingEngine = wordCountingEngine;
+            _wordCountingWorkflow = wordCountingWorkflow;
         }
 
         public async Task RunAsync(CancellationToken token)
@@ -33,7 +33,7 @@ namespace SkyKick.NinjectWorkshop.WordCounting.UI.Repl
 
             var textSource = _replTextSourceBuilder.PromptUserForInputAndBuildTextSource(textSourceSelection);
 
-            var count = await _wordCountingEngine.CountWordsFromTextSourceAsync(textSource, token);
+            var count = await _wordCountingWorkflow.RunWordCountWorkflowAsync(textSource, token);
 
             Console.WriteLine($"Number of words on [{textSource.TextSourceId}]: {count}");
             Console.WriteLine();

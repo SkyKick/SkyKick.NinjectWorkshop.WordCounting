@@ -7,7 +7,7 @@ using NUnit.Framework;
 using Rhino.Mocks;
 using Should;
 using SkyKick.NinjectWorkshop.WordCounting.Http;
-using SkyKick.Bcl.Extensions.Reflection;
+using SkyKick.NinjectWorkshop.WordCounting.Tests.Helpers;
 
 namespace SkyKick.NinjectWorkshop.WordCounting.Tests.Http
 {
@@ -27,14 +27,14 @@ namespace SkyKick.NinjectWorkshop.WordCounting.Tests.Http
 
             yield return new object[]
             {
-                CreateWebExceptionWithStatusCode(HttpStatusCode.InternalServerError), 
+                WebExceptionHelper.CreateWebExceptionWithStatusCode(HttpStatusCode.InternalServerError), 
                 // retry on a 500
                 true
             };
 
             yield return new object[]
             {
-                CreateWebExceptionWithStatusCode(HttpStatusCode.NotFound), 
+                WebExceptionHelper.CreateWebExceptionWithStatusCode(HttpStatusCode.NotFound), 
                 // do not retry on 404
                 false
             };
@@ -93,34 +93,6 @@ namespace SkyKick.NinjectWorkshop.WordCounting.Tests.Http
 
                 mockWebClient.VerifyAllExpectations();
             }
-        }
-
-        /// <summary>
-        /// Have to use reflection to build <see cref="WebException"/>
-        /// because Microsoft doesn't provide public constructors / setters
-        /// <para />
-        /// This leverages tools from <see cref="SkyKick.Bcl.Extensions.Reflection"/>
-        /// to make it a bit easier.
-        /// </summary>
-        private WebException CreateWebExceptionWithStatusCode(HttpStatusCode status)
-        {
-            var httpWebResponse = 
-                (HttpWebResponse)
-                Activator.CreateInstance(
-                    typeof(HttpWebResponse), 
-                    false);
-
-            typeof(HttpWebResponse)
-                .CreateFieldAccessor<HttpStatusCode>("m_StatusCode")
-                .Set(httpWebResponse, status);
-
-            var webException = new WebException("");
-
-            typeof(WebException)
-                .CreateFieldAccessor<WebResponse>("m_Response")
-                .Set(webException, httpWebResponse);
-
-            return webException;
         }
     }
 }

@@ -45,6 +45,12 @@
     <Reference Include="Ninject.Extensions.Conventions, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.Extensions.Conventions.3.2.0.0\lib\net45-full\Ninject.Extensions.Conventions.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject.MockingKernel, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.MockingKernel.3.2.2.0\lib\net45-full\Ninject.MockingKernel.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.MockingKernel.RhinoMock, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.MockingKernel.RhinoMocks.3.2.2.0\lib\net45-full\Ninject.MockingKernel.RhinoMock.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -77,10 +83,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cache\WordCountCacheTests.cs" />
+    <Compile Include="Helpers\WebExceptionHelper.cs" />
     <Compile Include="Http\WebTextSourceTests.cs" />
     <Compile Include="NinjectBindingTests.cs" />
     <Compile Include="WordCountingEngineTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WordCountingWorkflowScenarioTests.cs" />
+    <Compile Include="WordCountingWorkflowTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -104,6 +113,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="SampleFiles\WordsWithEntersAndNoSpaces.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SampleFiles\3000Words.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SampleFiles\500Words.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

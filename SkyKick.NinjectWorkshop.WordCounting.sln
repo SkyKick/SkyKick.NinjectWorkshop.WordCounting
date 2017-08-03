@@ -14,6 +14,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{944F866D-1A8C-46DB-9BD8-2B6104A9D5DC}"
 	ProjectSection(SolutionItems) = preProject
 		Notes.txt = Notes.txt
+		ReadMe.md = ReadMe.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyKick.NinjectWorkshop.WordCounting.Prototype", "SkyKick.NinjectWorkshop.WordCounting.Prototype\SkyKick.NinjectWorkshop.WordCounting.Prototype.csproj", "{11B59A14-ED24-4865-A704-21A5855C79BB}"

@@ -95,7 +95,7 @@ The Prototype application gets the initial job done, but it's not testable.  The
 To make this application more testable, we'll start by following the [Single Responsibility Principle](https://en.wikipedia.org/wiki/Single_responsibility_principle) and break each Responsibility above into its own class.
 
 
-Each class will be exposed to the borader system as an interface.  This will allow us to easily mock behavioir.  Additionally, consumers will not need to be concerned with knowing about individual implementations, they will only declare the interface or contracts that they need in order for they themselves to to do their work.  This principle is called [Inversion of Control](https://en.wikipedia.org/wiki/Inversion_of_control).
+Each class will be exposed to the broader system as an interface.  This will allow us to easily mock behavior.  Additionally, consumers will not need to be concerned with knowing about individual implementations, they will only declare the interface or contracts that they need in order for they themselves to to do their work.  This principle is called [Inversion of Control](https://en.wikipedia.org/wiki/Inversion_of_control).
 
 8. Create a new Solution Folder called `V2`
 
@@ -131,7 +131,7 @@ Each class will be exposed to the borader system as an interface.  This will all
         }
         ```
 1. Move the code that reads from the Web to its own file. 
-   1.  **`NOTE:`** This is a very important concept - we will wrap code that performs IO, especially static framework code and remove it from Logic code.  This will allow us to write Tests that mock out the IO call and fully Test our Logic code.  Additionally, from an academic sense, this encapsalation frees our Logic code froim knowing the specific semantics of interacting with IO; though in practice the Logic will still need to be responsible for correctly interfacting with IO subsystems (via the wrappers) to handle things like retries and disposing.
+   1.  **`NOTE:`** This is a very important concept - we will wrap code that performs IO, especially static framework code and remove it from Logic code.  This will allow us to write tests that mock out the IO call and fully test our Logic code.  Additionally, from an academic sense, this encapsulation frees our Logic code from knowing the specific semantics of interacting with IO; though in practice the Logic will still need to be responsible for correctly interfacing with IO subsystems (via the wrappers) to handle things like retries and disposing.
 
    1. Create a new Folder in `SkyKick.NinjectWorkshop.WordCounting` called `Http`.
     1. Create a new Class file called `WebClientWrapper` in `Http`:
@@ -335,7 +335,7 @@ Each class will be exposed to the borader system as an interface.  This will all
 
 #### Chapter 2 Initial Tests
 
-Now that we have applied Single Responsibility and broken apart the prototype into its constinuent parts, lets take advantage of the design and create some Tests
+Now that we have applied Single Responsibility and broken apart the prototype into its constituent parts, lets take advantage of the design and create some Tests
 
 In this section we'll create what we'ver termed a *Cross Component Test*.  This is a Test built using a Unit Test Framework but rather than testing a single class or unit, it tests multiple classes working together.  Writing a Unit Test for `WordCountingEngine` that just verifies that it takes the output from `WebTextSource` and passes it to `WordCountingAlgorithm` would not be very valuable.  Instead if we create a Cross Component Test that uses all of these classes together, but with a mocked `IWebClient` to simulate a web response, we get a test that actually verifies behavior and is valuable.
 
@@ -543,11 +543,11 @@ The primary benefit of using a Dependency Injection framework like Ninject, is i
         1. We've now delegated building `Repl` to Ninject! 
         2. **Important:**  Deciding where to build and access a Kernel is a very important design decision.  It should *ONLY* be done at the Entry Point of an application.  For a Cloud Service, that's in `RoleEntryPoint`.  For a Console Application, that's in `Program.Main`  For Web Applications (asp.net mvc, or api), there's a [specialized plugin](https://github.com/ninject/ninject.web.mvc) that automatically plugs in to the ASP.NET Framework's Controller Factory so that you should never access the Kernel at all.
 
-            1. This can be difficult in code bases that were not designed with Inversion of Control and it may be necessary to build and use the Kernel deeper in the stack.  However, once a Kenrel is built and used it should not be referenced lower in the stack.
+            1. This can be difficult in code bases that were not designed with Inversion of Control and it may be necessary to build and use the Kernel deeper in the stack.  However, once a Kernel is built and used it should not be referenced lower in the stack.
             2. Designing classes that take a dependency of the Kernel is a (anti-)pattern known as Service Locator.  In this design each class is passed the Kernel and they use the Kernel to resolve their dependencies themselves.  Service Locator is bad.  This is discussed at greater detail below in an Appendix.
 
 1. Run `SkyKick.NinjectWorkshop.WordCounting.UI`
-    1. You should immediatly get an error like:
+    1. You should immediately get an error like:
     
         ```
         Ninject.ActivationException: 'Error activating IWordCountingEngine
@@ -901,7 +901,7 @@ can be tested.
 Lets add the requirement that 
  - If the `IWebClient` throws a general exception or 
 gets a 500, we should retry 3 times with a back off period of 0.5s, 1s and 10s.
-- If the `IWebClient` gets any http error code *other* than a 500, we should fail immediatly and not perform a retry.
+- If the `IWebClient` gets any http error code *other* than a 500, we should fail immediately and not perform a retry.
 
 43. Add a NuGet reference to `Polly 5.3.0` to `SkyKick.NinjectWorkshop.WordCounting`
 
@@ -1114,7 +1114,7 @@ gets a 500, we should retry 3 times with a back off period of 0.5s, 1s and 10s.
 
     1. Use .Expect() to have the ability to Verify that method was called with given method parameters a set number of times.
 
-   1. Use .Thorw() to easily have a mock throw an exception
+   1. Use .Throw() to easily have a mock throw an exception
    1. We create a `WebTextSourceOptions` with an array of 0 second retry times to `Verify()` that the retry policy is retrying Web Requests
     1. Use `VerifyAllExpectations()` to verify `GetHtmlAsync` was called the correct number of times
     
@@ -1122,7 +1122,7 @@ gets a 500, we should retry 3 times with a back off period of 0.5s, 1s and 10s.
 
    1. One of the Test Cases fails! We just found a bug in the retry logic - it retries on a non-transient exception.  That would have been very very hard to identify in a running system!
 
-   1. The Exception that is logged is quiet daunting.  We caught an exception, but it's not the exception we thought it would be, so the `ShouldEqaul(webClientException)` threw a new exception. The `Actual"` exception is what was thrown by the `WebTextSource`: A `NullReferenceException`.
+   1. The Exception that is logged is quiet daunting.  We caught an exception, but it's not the exception we thought it would be, so the `ShouldEqual(webClientException)` threw a new exception. The `Actual` exception is what was thrown by the `WebTextSource`: A `NullReferenceException`.
         1. This is a very important exception to understand when working with Mocks, especially when dealing with Async code.
 
         1. Key to understanding is knowing how a Mock behaves by default, which is it will return `default()` for any method that has not been stubbed with either `Stub()` or `Expect()`.  When we an Async method is called on a Mock with no Stub, Rhino will return null, and the code will end up trying to `await null` which leades to the `NullReferenceException.`
@@ -1402,7 +1402,7 @@ Performance optimization time.  We expect our Word Counter will be asked to coun
            1. However, for `IThreadSleeper` we must use `Rebind()`.  the `SkyKick.NinjectWorkshop.WordCounting.NinjectModule` already has a binding for `IThreadSleeepr`.  If we use `Bind<IThreadSleeper>.ToConstant(mockThreadSleeper)` the call will succeed, however when we do a `kernel.Get()` Ninject will throw an exception because it will not know which of the two bindings to use.  
 
            1. There is no problem if you use `Rebind `if there is not an existing binding.
-        1. Note how it's very useful to have a wraper around `Thread.Sleep`, it allows the test to run in a fraction of a second, instead of waiting three seconds for the Initialize methods to complete.
+        1. Note how it's very useful to have a wrapper around `Thread.Sleep`, it allows the test to run in a fraction of a second, instead of waiting three seconds for the Initialize methods to complete.
         1. Because we're using quantum logging that supports DI, we can also verify that logging occurs :)
 
 1. Run the `WordCountCacheShouldBeBoundAsASingleton` Test and confirm that it fails.  Ninject is exhibiting default behavior, each call to `kernel.Get<IWordCountCache>()` will return a new instance.
@@ -1546,7 +1546,7 @@ Performance optimization time.  We expect our Word Counter will be asked to coun
 
 #### Chapter 7 Factories and File Input
 
-We have just recieved a new requirement: Out application must be able to read and count words from File in addition to a reading and counting from a Web Server.
+We have just recieved a new requirement: Our application must be able to read and count words from File in addition to a reading and counting from a Web Server.
 
 This will require a bit of a redesign as the initial design was tightly coupled with the idea of reading from Web pages.
 
@@ -1658,7 +1658,7 @@ This will require a bit of a redesign as the initial design was tightly coupled 
     ```
     1. We'll need to create an interface to define the factory signature so the factory can be consumed by other classes.
 
-    1. Implementation will use constructor injection to pull in all fo the dependencies that `WebTextSource` needs, and then will complement that with the non-injectable parameters it needs: `url`.
+    1. Implementation will use constructor injection to pull in all of the dependencies that `WebTextSource` needs, and then will complement that with the non-injectable parameters it needs: `url`.
     1. This allows us to still use DI everywhere, but still support initialization input that will be provided by run time data; in this case user input
     1. It might feel wierd to see the `new` keyword again, but this is perfectly ok.
     
@@ -1767,7 +1767,7 @@ This will require a bit of a redesign as the initial design was tightly coupled 
     }
     ```
     1. For `IFileTextSourceFactory` we'll use a plugin to avoid having to write the boiler plate factory code we wrote in `WebTextSourceFactory` that pulled in the dependencies and passed them to the `WebTextSouce` constructor.
-        1. This plugin will use a number of convention. Method must start with `Create` and we must create a `IFileTextSource` to help the Factory
+        1. This plugin will use a number of conventions. Method must start with `Create` and we must create a `IFileTextSource` to help the Factory
 
 1. Add a Nuget reference to `Ninject.Extensions.Factory 3.2.1.0` in `SkyKick.NinjectWorkshop.WordCounting`
 
@@ -2096,7 +2096,7 @@ This will require a bit of a redesign as the initial design was tightly coupled 
 
 #### Chapter 8 BDD and Scenario Tests
 
-Lets add some arbitrary complexity to our application to simulate a real word buisness demand.  Then we'll see how to leverage Behavior Driven Development (BDD)'s style of testing to easily write some powerful and wide reaching tests.
+Lets add some arbitrary complexity to our application to simulate a real word business demand.  Then we'll see how to leverage Behavior Driven Development (BDD)'s style of testing to easily write some powerful and wide reaching tests.
 
 For this example let's say we've gotten the following requirements:
 
@@ -2402,7 +2402,7 @@ For this example let's say we've gotten the following requirements:
         
         1. Notice how we haven't added any Behavior for an `ILogger` even though `WordCountWorkflow` takes one as a dependency.  The Mocking Kernel will automatically generate a mock for us and give it `wordCountWorkflow`.  Any because all of the logging calls return void, the default mock provided workds just fine here.
 
-    1. Pro Tip - I like to add hints in test descriptions on how to interpret and fix a test if it shows failure conditions.  In this case, if the wrong email is sent, a null refernece exception will be thrown, so I doucment this in the test comments.
+    1. Pro Tip - I like to add hints in test descriptions on how to interpret and fix a test if it shows failure conditions.  In this case, if the wrong email is sent, a null refernece exception will be thrown, so I document this in the test comments.
 
 ##### Introducing Behavior Driven Development
 
@@ -2615,11 +2615,11 @@ and THEN no exception is thrown
     
     1. Test Harness sets up Mocks and then exposes helper methods for our BDD tests to perform setup and validation.  This is very similar to a Cross Componenet test, the idea here is to test as much of the stack as possible, so we'll only mock out the `WebClient` and `EmailClient`, so we're fully running `WordCountingWorkflow`, `WordCountingEngine`, `WordCountingAlgorithm`, `WordCountCache`, and `WebTextSource`
 
-    1. Note how `VerifyTheOnlyEmailSentHad` does a double verificiation, first verifying that the correct email was sent the correct number of times and then verifying that no other email was sent.  This technique is important for making sure that Tests are robust enough to catch a case when the wrong input is pased to a method.
+    1. Note how `VerifyTheOnlyEmailSentHad` does a double verification, first verifying that the correct email was sent the correct number of times and then verifying that no other email was sent.  This technique is important for making sure that Tests are robust enough to catch a case when the wrong input is pased to a method.
 
-    1. Note how all of the Given/When/Then helpers return `TestHarness`.  This is called Fluent Syntax and is not strictially necessary.  It will allows us to do method chaing and make the consuming code a bit more readable.
+    1. Note how all of the Given/When/Then helpers return `TestHarness`.  This is called Fluent Syntax and is not strictly necessary.  It will allows us to do method chaining and make the consuming code a bit more readable.
 
-1. Add the Scenarions to `WordCountingWorkflowScenarioTests`:
+1. Add the Scenarios to `WordCountingWorkflowScenarioTests`:
     ```csharp
         public class WordCountingWorkflowScenarioTests
         {
@@ -2729,7 +2729,7 @@ and THEN no exception is thrown
                 }
             }
     ```
-    1. This should highlight that, once the `TestHarness` is in place, its increadibly easy to add new Scenarios!
+    1. This should highlight that, once the `TestHarness` is in place, its incredibly easy to add new Scenarios!
 
 1. We've shown "happy path" Scenarios.  But we can also capture failure Scenarios.  Add a new child class to `WordCountingWorkflowScenarioTests`: 
     ```csharp
@@ -2844,4 +2844,4 @@ and THEN no exception is thrown
     }
     ```
 
-    1. These failure Scenarios show how easy it is to add not just happy path Scenarios, but also Scenarios that cover commplex retry logic!
+    1. These failure Scenarios show how easy it is to add not just happy path Scenarios, but also Scenarios that cover complex retry logic!

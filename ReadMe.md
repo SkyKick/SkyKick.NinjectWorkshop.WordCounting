@@ -592,7 +592,7 @@ The primary benefit of using a Dependency Injection framework like Ninject, is i
                 {
                     var kernel = new StandardKernel();
 
-                    kernel.Bind<IWordCountingEngine().To<WordCountingEngine>();
+                    kernel.Bind<IWordCountingEngine>().To<WordCountingEngine>();
 
                     return kernel;
                 }

@@ -1924,6 +1924,8 @@ This will require a bit of a redesign as the initial design was tightly coupled 
     }
     ```
 
+1. Add a NuGet reference to `Ninject.Extensions.Conventions 3.2.0.0` to `SkyKick.NinjectWorkshop.WordCounting.UI`
+
 1. We're now injecting a `IReplTextSourceBuilder` into `Repl`.  We don't have a Ninject Module for `SkyKick.NinjectWorkshop.WordCounting.UI` so `Repl` will no longer resolve correclty.
 
     1. Add a new Class to `SkyKick.NinjectWorkshop.WordCounting.UI` called `NinjectModule`: 

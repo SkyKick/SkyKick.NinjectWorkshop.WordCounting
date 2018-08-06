@@ -1720,6 +1720,10 @@ This will require a bit of a redesign as the initial design was tightly coupled 
    
 1. Create a new Folder in `SkyKick.NinjectWorkshop.WordCounting` called `File`
 
+1. Add NuGet Packages to `SkyKick.NinjectWorkshop.WordCounting`
+    
+    1. Add a NuGet reference to `SkyKick.Bcl.Extensions` from the SkyKick nuget feed
+
 1. Create a new Class in `SkyKick.NinjectWorkshop.WordCounting.File` called `FileTextSource`:
    ```csharp
     using System.Threading;

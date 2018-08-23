@@ -592,7 +592,7 @@ The primary benefit of using a Dependency Injection framework like Ninject, is i
                 {
                     var kernel = new StandardKernel();
 
-                    kernel.Bind<IWordCountingEngine().To<WordCountingEngine>();
+                    kernel.Bind<IWordCountingEngine>().To<WordCountingEngine>();
 
                     return kernel;
                 }
@@ -1720,6 +1720,8 @@ This will require a bit of a redesign as the initial design was tightly coupled 
    
 1. Create a new Folder in `SkyKick.NinjectWorkshop.WordCounting` called `File`
 
+1. Add a NuGet reference to `SkyKick.Bcl.Extensions` in `SkyKick.NinjectWorkshop.WordCounting` from the SkyKick nuget feed
+
 1. Create a new Class in `SkyKick.NinjectWorkshop.WordCounting.File` called `FileTextSource`:
    ```csharp
     using System.Threading;
@@ -1921,6 +1923,8 @@ This will require a bit of a redesign as the initial design was tightly coupled 
         }
     }
     ```
+
+1. Add a NuGet reference to `Ninject.Extensions.Conventions 3.2.0.0` to `SkyKick.NinjectWorkshop.WordCounting.UI`
 
 1. We're now injecting a `IReplTextSourceBuilder` into `Repl`.  We don't have a Ninject Module for `SkyKick.NinjectWorkshop.WordCounting.UI` so `Repl` will no longer resolve correclty.
 
